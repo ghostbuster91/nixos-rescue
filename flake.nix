@@ -27,6 +27,22 @@
         }
        ];
     };
+
+    nixosConfigurations.virtos = nixpkgs.lib.nixosSystem {
+      inherit system;
+      modules = [
+        ./machines/virtos/configuration.nix
+        home-manager.nixosModules.home-manager
+        {
+          home-manager = {
+            useUserPackages = true;
+	    useGlobalPkgs=true;   
+            users.${username}= ./home.nix;
+          };
+        }
+      ];
+    };
+
     homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
       pkgs = nixpkgs.legacyPackages.${system};
       modules = [ 
