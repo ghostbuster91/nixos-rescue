@@ -2,14 +2,14 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, disko, ... }:
 
 {
   imports =
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      "${builtins.fetchTarball { url="https://github.com/nix-community/disko/archive/master.tar.gz"; sha256="sha256:0mhn244b1h88ha39fqbzk5c9kp21g8bqqchkr241ya1nzz9yi8bf";}}/module.nix"
+      disko.nixosModules.disko
       (import ./disko-config.nix {
         disks = [ "/dev/sda" "/dev/sdb" ]; # replace this with your disk name i.e. /dev/nvme0n1
       })
