@@ -6,23 +6,32 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      "${builtins.fetchTarball { url="https://github.com/nix-community/disko/archive/master.tar.gz"; sha256="sha256:0mhn244b1h88ha39fqbzk5c9kp21g8bqqchkr241ya1nzz9yi8bf";}}/module.nix"
+      (import ./disko-config.nix {
+        disks = [ "/dev/sda" "/dev/sdb" ]; # replace this with your disk name i.e. /dev/nvme0n1
+      })
     ];
 
   # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
+  # boot.loader.grub.enable = true;
+  # boot.loader.grub.version = 2;
+  # boot.loader.grub.enableCryptodisk = true;
   # boot.loader.grub.efiSupport = true;
   # boot.loader.grub.efiInstallAsRemovable = true;
-  # boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  # boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.efi.efiSysMountPoint = "/boot";
   # Define on which hard drive you want to install Grub.
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+  # boot.loader.grub.device = "nodev"; # or "nodev" for efi only
+  boot.loader.systemd-boot.enable = true;
 
+  networking.hostId = "7ccbd6df";
   networking.hostName = "virtos"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
@@ -40,15 +49,15 @@
   # };
 
   # Enable the X11 windowing system.
-  services.xserver= {
+  services.xserver = {
     enable = true;
     exportConfiguration = true;
     desktopManager = {
-      xfce.enable=true;
+      xfce.enable = true;
     };
   };
 
-  
+
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -65,16 +74,16 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-   users.users.kghost = {
-     isNormalUser = true;
-     extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-   };
+  users.users.kghost = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-vim
-     git
+    vim
+    git
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
