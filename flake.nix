@@ -27,6 +27,7 @@
               useUserPackages = true;
               useGlobalPkgs = true;
               users.${username} = ./home.nix;
+              extraSpecialArgs = { inherit username; };
             };
           }
         ];
@@ -42,24 +43,20 @@
               useUserPackages = true;
               useGlobalPkgs = true;
               users.${username} = ./home.nix;
+              extraSpecialArgs = { inherit username; };
             };
           }
+          disko.nixosModules.disko
         ];
-        specialArgs = { inherit disko; };
       };
 
-      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.${system};
-        modules = [
-          ./home.nix
-          {
-            home = {
-              inherit username;
-              homeDirectory = "/home/${username}";
-              stateVersion = "22.11";
-            };
-          }
-        ];
-      };
+      homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration
+        {
+          pkgs = nixpkgs.legacyPackages.${system};
+          modules = [
+            ./home.nix
+          ];
+          specialArgs = { inherit username; };
+        };
     };
 }

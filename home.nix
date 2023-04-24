@@ -1,9 +1,9 @@
-{config, pkgs, ...}: {
+{ config, pkgs, username, ... }: {
 
   programs.home-manager.enable = true;
 
-  home.username = "kghost";
-  home.homeDirectory = "/home/kghost";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
   home.stateVersion = "22.11";
 
   home.packages = with pkgs; [
@@ -12,7 +12,7 @@
     firefox
     tree
   ];
-  
+
   programs.git = {
     enable = true;
     userName = "ghostbuster91";
