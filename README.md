@@ -2,8 +2,10 @@
 sudo nixos-rebuild switch --flake .
 ```
 
-or
-
 ```
 nixos-install --flake https://github.com/ghostbuster91/nixos-rescue#somehost
+```
+
+```
+nix run github:nix-community/disko --extra-experimental-features flakes --extra-experimental-features nix-command -- --mode zap_create_mount /tmp/disko-config.nix --arg disks '[ "/dev/sda" "/dev/sdb" ]'
 ```
