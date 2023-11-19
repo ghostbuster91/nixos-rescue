@@ -28,7 +28,18 @@
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
-
+  services.openssh.enable = true;
+  services.openssh.settings.PermitRootLogin = "no";
+  services.openssh.settings.PasswordAuthentication = false;
+  users.users.${username} = {
+    name = username;
+    home = "/home/${username}";
+    isNormalUser = true;
+    extraGroups = [ "wheel" "network" ]; # Enable ‘sudo’ for the user.
+    shell = pkgs.zsh;
+    openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFFeU4GXH+Ae00DipGGJN7uSqPJxWFmgRo9B+xjV3mK4" ];
+    initialHashedPassword = "$y$j9T$aeZHaSe8QKeC0ruAi9TKo.$zooI/IZUwOupVDbMReaukiargPrF93H/wdR/.0zsrr.";
+  };
   # Set your time zone.
   # time.timeZone = "Europe/Amsterdam";
 
@@ -68,13 +79,13 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.kghost = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-    packages = with pkgs; [
-      firefox
-    ];
-  };
+  # users.users.kghost = {
+  #   isNormalUser = true;
+  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+  #   packages = with pkgs; [
+  #     firefox
+  #   ];
+  # };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
