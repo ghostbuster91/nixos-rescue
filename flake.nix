@@ -64,6 +64,7 @@
           }
           disko.nixosModules.disko
         ];
+       specialArgs = { inherit username; };
       };
 
       nixosConfigurations.kubuntu = nixpkgs.lib.nixosSystem {
