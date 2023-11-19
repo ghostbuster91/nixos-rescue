@@ -50,6 +50,23 @@
         ];
       };
 
+      nixosConfigurations.kubuntu = nixpkgs.lib.nixosSystem {
+	inherit system;
+	modules = [
+		./machines/kubuntu/configuration.nix
+		home-manager.nixosModules.home-manager
+		{
+		  home-manager = {
+			userUserPackages = true;
+			useGlobalPkgs = true;
+			user.${username} = ./home.nix;
+			extraSpecialArgs = {inherit username; };
+		  };
+		}
+		disko.nixosModules.disko	
+	];
+	};
+
       homeConfigurations.${username} = home-manager.lib.homeManagerConfiguration
         {
           pkgs = nixpkgs.legacyPackages.${system};
