@@ -9,19 +9,16 @@
           format = "gpt";
           partitions = [
             {
-              name = "ESP";
-              start = "1M";
-              end = "500M";
-              bootable = true;
-              content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot";
-              };
+              name = "boot";
+              start = "0";
+              end = "1M";
+              part-type = "primary";
+              flags = [ "bios_grub" ];
             }
             {
               name = "root";
-              start = "500M";
+              # leave space for the grub aka BIOS boot
+              start = "1M";
               end = "-32G";
               part-type = "primary";
               bootable = true;
