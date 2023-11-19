@@ -56,9 +56,9 @@
           home-manager.nixosModules.home-manager
           {
             home-manager = {
-              userUserPackages = true;
+              useUserPackages = true;
               useGlobalPkgs = true;
-              user.${username} = ./home.nix;
+              users.${username} = ./home.nix;
               extraSpecialArgs = { inherit username; };
             };
           }
@@ -73,9 +73,9 @@
           home-manager.nixosModules.home-manager
           {
             home-manager = {
-              userUserPackages = true;
+              useUserPackages = true;
               useGlobalPkgs = true;
-              user.${username} = ./home.nix;
+              users.${username} = ./home.nix;
               extraSpecialArgs = { inherit username; };
             };
           }
